@@ -11,13 +11,13 @@ Requirement
 - ruby 1.8.7
 - gem 1.3.7
 - Nokogiri
-  $ gem install nokogiri
+--$ gem install nokogiri
 
 Usage
 -----
 $ ruby pagescan.rb URL
 
-e.g: ruby pagescan.rb http://blog.lab69.com
+e.g: $ ruby pagescan.rb http://blog.lab69.com
 
 Future improvement (?)
 ---------------------
