@@ -8,18 +8,22 @@ PageScan is a web content scraper for web-based malware analysis. It assist anal
 
 Requirement
 ------------
-- ruby 1.8.7
-- gem 1.3.7
-- Nokogiri (gem install nokogiri)
+* ruby 1.8.7
+* gem 1.3.7
+* nokogiri ```gem install nokogiri```
 
 Usage
 -----
-$ ruby pagescan.rb URL
+```$ ruby pagescan.rb URL```
 
-e.g: $ ruby pagescan.rb http://blog.lab69.com
+e.g: ```$ ruby pagescan.rb http://blog.lab69.com```
 
 Future improvement (?)
 ---------------------
 - Proper command-line options
 - Better result output (text output & web-based output)
 - Yara signature support
+
+License
+-----------
+PageScan licensed under WTFPL V2 (http://sam.zoy.org/wtfpl/)
