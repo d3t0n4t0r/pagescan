@@ -16,6 +16,7 @@ Requirement
 Usage
 -----
 $ ruby pagescan.rb URL
+
 e.g: ruby pagescan.rb http://blog.lab69.com
 
 Future improvement (?)
