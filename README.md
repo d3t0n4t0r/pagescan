@@ -10,8 +10,7 @@ Requirement
 ------------
 - ruby 1.8.7
 - gem 1.3.7
-- Nokogiri
---$ gem install nokogiri
+- Nokogiri (gem install nokogiri)
 
 Usage
 -----
