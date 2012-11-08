@@ -1,4 +1,21 @@
 #!/usr/bin/ruby
+#
+# PageScan
+#    by d3t0n4t0r
+#
+# version: 0.1
+# 
+# changelog:
+#       21 Oct 2012 - Project started 
+# 	08 Nov 2012 - (0.1) Initial release
+#
+# WTFPL - Do What The Fuck You Want To Public License
+# ---------------------------------------------------
+# This program is free software. It comes without any warranty, to
+# the extent permitted by applicable law. You can redistribute it
+# and/or modify it under the terms of the Do What The Fuck You Want
+# To Public License, Version 2, as published by Sam Hocevar. See
+# http://sam.zoy.org/wtfpl/COPYING for more details.
 
 basedir = __FILE__
 while File.symlink?(basedir)
