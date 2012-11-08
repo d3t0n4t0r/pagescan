@@ -1,4 +1,4 @@
-PageScan v0.1-alpha
+PageScan v0.1
 ========
 *developed by d3t0n4t0r*
 
