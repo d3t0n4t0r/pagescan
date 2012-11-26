@@ -59,14 +59,16 @@ class Geturl
 
 	def go
 		response = get_content(@url)
-			
-		parsecon = Nokogiri::HTML(response.body)
 		@code = response.code
-		redirect(response)
-		@con = response.body
-		@js = parse_js(parsecon)
-		@iframe = parse_iframe(parsecon)
-		@link = parse_link(parsecon)
+		
+		unless response.body.nil?
+			parsecon = Nokogiri::HTML(response.body)
+			redirect(response)
+			@con = response.body
+			@js = parse_js(parsecon)
+			@iframe = parse_iframe(parsecon)
+			@link = parse_link(parsecon)
+		end
 	end
 
 	def httpurl(url)
@@ -99,14 +101,7 @@ class Geturl
                         http = Net::HTTP.new(uri.host, uri.port)
                         request = Net::HTTP::Get.new(uri.request_uri)
                         request.initialize_http_header($useragent)
-			
                         response = http.request(request)
-			
-			if response.code.match(/404/)
-				return ""
-			else
-                        	return response
-			end
                 rescue => e
 			puts "ERROR: <#{e.class.name}> #{e.to_s}"
 			exit
