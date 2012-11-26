@@ -8,6 +8,12 @@
 # changelog:
 # 	21 Oct 2012 - Project started 
 # 	08 Nov 2012 - (0.1) Initial release
+#       23 Nov 2012 - Added command-line options
+#			- User Agent
+#			- Referer
+#	27 Nov 2012 - Fix the output msg for Net::HTTP error handling
+#		    - Fix the URL escape found in links/iframe/js's src
+#
 #
 # WTFPL - Do What The Fuck You Want To Public License
 # ---------------------------------------------------
@@ -25,16 +31,16 @@ require 'uri'
 require 'net/http'
 
 $useragent = {
-	"User-Agent" => "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Win64; x64; Trident/4.0; .NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; MDDC; Tablet PC 2.0)", 
+	"User-Agent" => "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13", 
 	"Referer" => "http://www.google.com/"
-}
+	}
 $seq = []
 
 class Geturl
 	attr_reader :url, :ip, :blist, :code, :urlredirect, :con, :js, :iframe, :link
 
 
-	def initialize(url)
+	def initialize(url,options)
 		@url = httpurl(url)
 		$seq << @url
 		@ip = get_ip(@url)
@@ -45,26 +51,22 @@ class Geturl
 		@js = []
 		@iframe = []
 		@link = []
-		
+		$useragent["User-Agent"] = options['user_agent'] unless options['user_agent'].nil?
+		$useragent["Referer"] = options['referer'] unless options['referer'].nil?
+	
 		go
 	end
 
 	def go
 		response = get_content(@url)
-		
-		if response.instance_of?(SocketError) and response.to_s =~ /getaddrinfo:\sName\sor\sservice\snot\sknown/
-			@code = "[ERROR] Unable to resolve host address"
-		elsif response.instance_of?(Errno::ECONNREFUSED) and response.to_s =~ /Connection\srefused\s-\sconnect\(2\)/
-			@code = "[ERROR] Connection refused"
-		else
-			parsecon = Nokogiri::HTML(response.body)
-			@code = response.code
-			redirect(response)	
-			@con = response.body
-			@js = parse_js(parsecon)
-			@iframe = parse_iframe(parsecon)
-			@link = parse_link(parsecon)
-		end
+			
+		parsecon = Nokogiri::HTML(response.body)
+		@code = response.code
+		redirect(response)
+		@con = response.body
+		@js = parse_js(parsecon)
+		@iframe = parse_iframe(parsecon)
+		@link = parse_link(parsecon)
 	end
 
 	def httpurl(url)
@@ -106,7 +108,8 @@ class Geturl
                         	return response
 			end
                 rescue => e
-                        return e
+			puts "ERROR: <#{e.class.name}> #{e.to_s}"
+			exit
                 end
         end
 
@@ -183,7 +186,7 @@ class Geturl
                         	tempcode = ''
 
                         	unless scr['src'].nil?
-                                	tempsrc = URI.escape(URI.parse(@url).merge(URI.parse(scr['src'])).to_s)
+                                	tempsrc = URI.parse(@url).merge(URI.parse(URI.escape(scr['src']))).to_s
                                 	begin
                                         	tempcode = get_content(tempsrc).body
                                 	rescue
@@ -215,7 +218,7 @@ class Geturl
 
         	unless parsecon.nil?
                 	parsecon.search('iframe').map do |ifr|
-                        	iframe << URI.parse(@url).merge(URI.parse(ifr['src'])).to_s
+                        	iframe << URI.parse(@url).merge(URI.parse(URI.escape(ifr['src']))).to_s
                 	end
         	end
 
@@ -228,7 +231,7 @@ class Geturl
         	unless parsecon.nil?
                 	parsecon.search('a').map do |lin|
                         	begin
-                                	links << URI.escape(URI.parse(@url).merge(URI.parse(lin['href'])).to_s)
+                                	links << URI.parse(@url).merge(URI.parse(URI.escape(lin['href']))).to_s
                         	rescue
                         	end
                 	end
@@ -263,8 +266,6 @@ class Geturl
 	end
 
 	def norton(site)
-		# PROBLEM: CAPTCHA PAGE
-		# "http://safeweb.norton.com/rate_limit?parameters=%2Freport%2Fshow%3Furl%3Dhttp%3A%2F%2Fimg.airparkfashionswitch.com%2Flinks%2Fdemands-lower.php
         	nurl = "http://safeweb.norton.com/report/show?url="
         	blacklist = 'No'
 
