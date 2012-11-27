@@ -57,7 +57,7 @@ def get_iframecon
 
         if iframearr.length > 0
                 iframearr.each do |url|
-                        $url << Geturl.new(url)
+                        $url << Geturl.new(url,options)
                 end
         end
 end
