@@ -42,7 +42,7 @@ def get_redirection(url,options)
         end
 end
 
-def get_iframecon
+def get_iframecon(options)
         iframearr = Array.new
         $url.each do |site|
                 if site.iframe.length > 0
@@ -149,7 +149,7 @@ if __FILE__ == $0
         $url = Array.new
 
         get_redirection(url,options)
-        get_iframecon
+        get_iframecon(options)
 
         $url.each do |site|
         	print(site)
