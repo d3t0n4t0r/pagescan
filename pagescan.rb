@@ -63,6 +63,9 @@ def get_iframecon(options)
 end
 
 def print(site)
+	if site.code =~ /ERROR/
+		puts site.code + " - " + URI.parse(site.url).host
+	else
 	puts "URL: " + site.url
 
 	puts "IP Address: "
@@ -79,7 +82,7 @@ def print(site)
 	puts "---------"
 	puts "Google Safebrowsing: " + site.blist[:google]
 	puts "Norton Safe Web: " + site.blist[:norton]
-	puts "McAfee Site Advisor: " + site.blist[:mcafee]
+	#puts "McAfee Site Advisor: " + site.blist[:mcafee]
 	puts
 
 	puts "Content"
@@ -109,6 +112,7 @@ def print(site)
 		puts "|\n+- " + lin
 	end
 	puts
+	end
 end
 
 if __FILE__ == $0

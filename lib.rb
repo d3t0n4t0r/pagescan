@@ -59,15 +59,20 @@ class Geturl
 
 	def go
 		response = get_content(@url)
-		@code = response.code
+
+		if response.to_s =~ /ERROR/
+			@code = response
+		else
+			@code = response.code
 		
-		unless response.body.nil?
-			parsecon = Nokogiri::HTML(response.body)
-			redirect(response)
-			@con = response.body
-			@js = parse_js(parsecon)
-			@iframe = parse_iframe(parsecon)
-			@link = parse_link(parsecon)
+			unless response.body.nil?
+				parsecon = Nokogiri::HTML(response.body)
+				redirect(response)
+				@con = response.body
+				@js = parse_js(parsecon)
+				@iframe = parse_iframe(parsecon)
+				@link = parse_link(parsecon)
+			end
 		end
 	end
 
@@ -103,8 +108,8 @@ class Geturl
                         request.initialize_http_header($useragent)
                         response = http.request(request)
                 rescue => e
-			puts "ERROR: <#{e.class.name}> #{e.to_s}"
-			exit
+			#@code = "ERROR: <#{e.class.name}> #{e.to_s}"
+			return "ERROR: <#{e.class.name}> #{e.to_s}"
                 end
         end
 
@@ -239,7 +244,7 @@ class Geturl
 		result = Hash.new
         	result.merge!(google(site))
         	result.merge!(norton(site))
-		result.merge!(mcafee(site))
+		#result.merge!(mcafee(site))
 
 		return result
 	end
