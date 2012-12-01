@@ -64,6 +64,8 @@ end
 
 def print(site)
 	if site.code =~ /ERROR/
+		p site.code
+		p site.url
 		puts site.code + " - " + URI.parse(site.url).host
 	else
 	puts "URL: " + site.url

@@ -114,16 +114,6 @@ class Geturl
         end
 
 	def redirect(response)
-		# try to figure out how to combine 'refresh' with 'Refresh'
-		# document.location='http://blabla.com'
-		# window.location="Shipping_Label_USPS.zip";
-		# window.location.href="login.jsp?backurl="+window.location.href;
-		# window.navigate("top.jsp");
-		# self.location="top.htm"
-		# top.location.href
-		# top.location="error.jsp";
-		#
-
 		if @code =~ /302/ or @code =~ /301/
 			if response['Location'] =~ /http|https/
 				@urlredirect = response['Location']
@@ -142,20 +132,68 @@ class Geturl
 
                 		jscode = parse_js(html)
                 		jscode.each do |js|
-                        		if js[1].match(/location.replace\(\".*?\"\);/)
-                                		url_redirect <<  js[1].scan(/location.replace\(\"(.*?)\"\);/)
+                        		if js[1].match(/location\.replace\(\".*?\"\);/)
+						js[1].scan(/location\.replace\(\"(.*?)\"\);/).each do |i|
+							url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+						end
                         		end
-                		end
+
+                                        if js[1].match(/window\.navigate\(\".*?\"\);/)
+                                                js[1].scan(/window\.navigate\(\"(.*?)\"\);/).each do |i|
+                                                        url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+                                                end
+                                        end
+
+                                        if js[1].match(/document\.location\s{0,}=\s{0,}["'].*?["'];/)
+                                                js[1].scan(/document\.location\s{0,}=\s{0,}["'](.*?)["'];/).each do |i|
+                                                        url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+                                                end
+                                        end
+
+                                        if js[1].match(/window\.location\s{0,}=\s{0,}["'].*?["'];/)
+                                                js[1].scan(/window\.location\s{0,}=\s{0,}["'](.*?)["'];/).each do |i|
+                                                        url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+                                                end
+                                        end
+
+                                        if js[1].match(/window\.location\.href\s{0,}=\s{0,}["'].*?["'];/)
+                                                js[1].scan(/window\.location\.href\s{0,}=\s{0,}["'](.*?)["'];/).each do |i|
+                                                        url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+                                                end
+                                        end
+
+                                        if js[1].match(/self\.location\s{0,}=\s{0,}["'].*?["'];/)
+                                                js[1].scan(/self\.location\s{0,}=\s{0,}["'](.*?)["'];/).each do |i|
+                                                        url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+                                                end
+                                        end
+
+                                        if js[1].match(/top\.location\s{0,}=\s{0,}["'].*?["'];/)
+                                                js[1].scan(/top\.location\s{0,}=\s{0,}["'](.*?)["'];/).each do |i|
+                                                        url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+                                                end
+                                        end
+
+                                        if js[1].match(/top\.location\.href\s{0,}=\s{0,}["'].*?["'];/)
+                                                js[1].scan(/top\.location\.href\s{0,}=\s{0,}["'](.*?)["'];/).each do |i|
+                                                        url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+                                                end
+                                        end
+                                end
 
                 		html.search("meta[http-equiv='refresh']").map do |meta|
                         		if meta['content'].match(/url=/)
-                                		url_redirect << meta['content'].scan(/url=(.*?)$/)
+						meta['content'].scan(/url=(.*?)$/).each do |i|
+							url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+						end
                         		end
                 		end
 
                 		html.search("meta[http-equiv='Refresh']").map do |meta|
                         		if meta['content'].match(/url=/)
-                                		url_redirect << meta['content'].scan(/url=(.*?)$/)
+						meta['content'].scan(/url=(.*?)$/).each do |i|
+							url_redirect << URI.parse(@url).merge(URI.parse(URI.escape(i))).to_s
+						end
                         		end
                 		end
 
@@ -208,7 +246,7 @@ class Geturl
 		# Check Iframe on JavaScript code in print()  
 		# document.write('<iframe src="http://blabla.com" scrolling="auto" frameborder="no" align="center" height="2" width="2"></iframe>');
         	# Check <IFRAME></IFRAME>
-        	# <frame src="http://lopas-morka-kestas.eu.pn/forums.ws15,16,650,91478678/" name="dot_tk_frame_content" scrolling="auto" noresize>
+        	# <frame src="http://evil.com/" name="dot_tk_frame_content" scrolling="auto" noresize>
         	# Get iframe content
         	# Whitelist:
         	# - facebook
