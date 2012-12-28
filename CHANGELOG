@@ -1,0 +1,17 @@
+CHANGELOG:
+	21 Oct 2012 - Project started
+	08 Nov 2012 - (0.1) Initial release
+	23 Nov 2012 - Added command-line options
+			- User Agent
+			- Referer
+	27 Nov 2012 - Fix the output msg for Net::HTTP error handling
+			- Fix the URL escape found in links/iframe/js's src
+	21 Dec 2012 - Fix error on iframe handling
+			- Added HTML report output
+			- Added new command-line option: analysis output to txt or html
+			- Added directory lib/ for file structure
+	25 Dec 2012 - Modified TXT report output + dump to file
+			- Fix Referer URL to previous URL when follow redirection
+	27 Dec 2012 - Fix bugs on 302 redirection - Location handling
+			- Fix table layout on HTML report for long URL 
+			- Dump HTTP Response Content-Type other than JS/HTML into file

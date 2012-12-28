@@ -1,6 +1,6 @@
-PageScan v0.1
+PageScan v0.2
 ========
-*developed by d3t0n4t0r*
+*developed by [d3t0n4t0r](http://blog.lab69.com)*
 
 Description
 -----------
@@ -10,20 +10,29 @@ Requirement
 ------------
 * ruby 1.8.7
 * gem 1.3.7
-* nokogiri ```gem install nokogiri```
+* nokogiri
+* optparse
 
 Usage
 -----
-```$ ruby pagescan.rb URL```
+	Usage: /usr/local/bin/pagescan [options] [url]
+	Options:
+	  -u, --user-agent <user-agent>    Use the specified User Agent. If not specified, default User Agent will be used
+	  -r, --referer <referer-addr>     Use the specified Referer. If not specified, default Referer will be used
+	  -o, --output <txt|html>          Specified report format for further analysis
+	  -h, --help                       Show this message
 
-e.g: ```$ ruby pagescan.rb http://blog.lab69.com```
 
 Future improvement (?)
 ---------------------
-- Proper command-line options
-- Better result output (text output & web-based output)
+- Better result output (text & HTML output)
 - Yara signature support
 
 License
 -----------
-PageScan licensed under WTFPL V2 (http://sam.zoy.org/wtfpl/)
+PageScan licensed under [WTFPL V2](http://sam.zoy.org/wtfpl/)
+
+Credit
+-------
+- [LAB69](http://lab69.com)
+- [MyYaraSIG](https://twitter.com/MyYaraSIG)
