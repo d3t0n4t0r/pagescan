@@ -16,10 +16,11 @@
 
 
 require 'rubygems'
+require 'net/http'
 require 'nokogiri'
 require 'open-uri'
+require 'socket'
 require 'uri'
-require 'net/http'
 
 $settings = { "User-Agent" => "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13", 
 					"Referer" => "http://www.google.com/" }
@@ -133,20 +134,10 @@ class Geturl
 
 	def get_ip(url)
 		begin
-			hostname = URI.parse(url).host
+			domain = URI.parse(url).host
+			ip = IPSocket::getaddress(domain)
 		rescue
-		end
-
-		ip = `dig +short @8.8.8.8 #{hostname}` # CHEATER !!
-		
-		if ip.empty? or ip.nil?
-			if hostname.match(/(?:\d{1,3}\.){3}\d{1,3}/)
-				ip = hostname
-			else
-				ip = "No record"
-			end
-		else
-			ip = ip.scan(/((?:\d{1,3}\.){3}\d{1,3})/).flatten
+			ip = "No record"
 		end
         	
 		return ip
@@ -273,12 +264,18 @@ class Geturl
 
 		unless parsecon.nil?
 			parsecon.search('script').map do |scr|
+				resp = ''
 				tempsrc = ''
 				tempcode = ''
 
 				unless scr['src'].nil?
 					tempsrc = URI.parse(@url).merge(URI.parse(URI.escape(scr['src']))).to_s
-					tempcode = get_content(tempsrc).body
+					resp = get_content(tempsrc)
+					unless resp.to_s =~ /ERROR/
+						unless resp.body.nil?
+							tempcode = resp.body
+						end
+					end
 				end
 
 				unless scr.text.empty?
